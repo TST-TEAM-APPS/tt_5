@@ -34,7 +34,7 @@ class _SplashViewState extends State<SplashView> {
     await _initConnectivity(
       () async => await DialogHelper.showNoInternetDialog(context),
     );
-    _navigate();
+   await _navigate();
   }
 
   Future<void> _initConnectivity(Future<void> Function() callback) async {
@@ -58,7 +58,6 @@ class _SplashViewState extends State<SplashView> {
   Future<void> _navigate() async {
     final seenAppReview =
         _databaseService.get(DatabaseKeys.seenAppReview) ?? false;
-    FlutterNativeSplash.remove();
     if (!seenAppReview) {
       InAppReview.instance.requestReview();
       _databaseService.put(DatabaseKeys.seenAppReview, true);
@@ -77,6 +76,7 @@ class _SplashViewState extends State<SplashView> {
     } else {
       Navigator.of(context).pushReplacementNamed(RouteNames.privacy);
     }
+    FlutterNativeSplash.remove();
   }
 
   @override
